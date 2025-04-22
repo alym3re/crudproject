@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avatar Creator</title>
+    <link rel="stylesheet" href="{% static 'crudapp/css/fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'crudapp/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'crudapp/css/style.css' %}">
+
+</head>
+<body>
+    <div class="container mt-3">
+        <h1 class="text-center mb-4 pixel-title">AVATAR CREATOR</h1>
+        
+        <button type="button" class="btn btn-primary mb-4 pixel-btn" data-bs-toggle="modal" data-bs-target="#avatarModal" id="addAvatarBtn">
+            CREATE NEW AVATAR
+        </button>
+        
+        <div class="row" id="avatarsContainer">
+            {% for item in items %}
+            <div class="col-md-3 col-sm-6 mb-4" id="avatar-{{ item.id }}">
+                <div class="avatar-card pixel-card">
+                    <div class="avatar-container pixel-bg" style="background-image: url('{% static 'crudapp/assets/Background/' %}{{ item.background }}')">
+                        <img src="{% static 'crudapp/assets/Skin/' %}{{ item.skin }}" class="avatar-part pixel-part">
+                        <img src="{% static 'crudapp/assets/Clothes/' %}{{ item.clothes }}" class="avatar-part pixel-part">
+                        <img src="{% static 'crudapp/assets/Eyes/' %}{{ item.eyes }}" class="avatar-part pixel-part">
+                        <img src="{% static 'crudapp/assets/Eyebrow/' %}{{ item.eyebrow }}" class="avatar-part pixel-part">
+                        <img src="{% static 'crudapp/assets/Hair/' %}{{ item.hair }}" class="avatar-part pixel-part">
+                        <img src="{% static 'crudapp/assets/Hat/' %}{{ item.hat }}" class="avatar-part pixel-part">
+                    </div>
+                    <div class="card-body pixel-card-body">
+                        <h5 class="card-title text-center pixel-text">{{ item.name }}</h5>
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-sm btn-warning edit-btn mx-1 pixel-btn-small" data-id="{{ item.id }}" data-bs-toggle="modal" data-bs-target="#avatarModal">EDIT</button>
+                            <button class="btn btn-sm btn-danger delete-btn mx-1 pixel-btn-small" data-id="{{ item.id }}">DELETE</button>
+                            <button class="btn btn-sm btn-success download-btn mx-1 pixel-btn-small" data-id="{{ item.id }}">SAVE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="modal fade" id="avatarModal" tabindex="-1" aria-labelledby="avatarModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content pixel-modal">
+                <div class="modal-header pixel-modal-header">
+                    <h5 class="modal-title pixel-modal-title" id="avatarModalLabel">CREATE AVATAR</h5>
+                    <button type="button" class="btn-close pixel-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pixel-modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="avatar-preview-container mb-3 pixel-preview">
+                                <div class="avatar-container pixel-bg" id="avatarPreview" style="background-image: url('{% static 'crudapp/assets/Background/background1.png' %}')">
+                                    <img src="{% static 'crudapp/assets/Skin/skin1.png' %}" class="avatar-part pixel-part">
+                                    <img src="{% static 'crudapp/assets/Clothes/clothes1.png' %}" class="avatar-part pixel-part">
+                                    <img src="{% static 'crudapp/assets/Eyes/eye1.png' %}" class="avatar-part pixel-part">
+                                    <img src="{% static 'crudapp/assets/Eyebrow/eyebrow1.png' %}" class="avatar-part pixel-part">
+                                    <img src="{% static 'crudapp/assets/Hair/hair1.png' %}" class="avatar-part pixel-part">
+                                    <img src="{% static 'crudapp/assets/Hat/hat1.png' %}" class="avatar-part pixel-part">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <form id="avatarForm">
+                                <input type="hidden" id="avatarId" value="">
+                                <input type="hidden" id="skin" value="skin1.png">
+                                <input type="hidden" id="eyebrow" value="eyebrow1.png">
+                                <input type="hidden" id="eyes" value="eye1.png">
+                                <input type="hidden" id="hair" value="hair1.png">
+                                <input type="hidden" id="hat" value="hat1.png">
+                                <input type="hidden" id="clothes" value="clothes1.png">
+                                <input type="hidden" id="background" value="background1.png">
+                                
+                                <div class="mb-3">
+                                    <label for="name" class="form-label pixel-label">AVATAR NAME</label>
+                                    <input type="text" class="form-control pixel-input" id="name" required>
+                                </div>
+                                
+                                <div class="controls mb-3 pixel-controls">
+                                    <button type="button" class="btn btn-outline-primary part-btn pixel-part-btn" data-part="skin">SKIN</button>
+                                    <button type="button" class="btn btn-outline-primary part-btn pixel-part-btn" data-part="eyebrow">BROWS</button>
+                                    <button type="button" class="btn btn-outline-primary part-btn pixel-part-btn" data-part="eyes">EYES</button>
+                                    <button type="button" class="btn btn-outline-primary part-btn pixel-part-btn" data-part="hair">HAIR</button>
+                                    <button type="button" class="btn btn-outline-primary part-btn pixel-part-btn" data-part="hat">HAT</button>
+                                    <button type="button" class="btn btn-outline-primary part-btn pixel-part-btn" data-part="clothes">CLOTHES</button>
+                                    <button type="button" class="btn btn-outline-primary part-btn pixel-part-btn" data-part="background">BG</button>
+                                </div>
+                                
+                                <div class="display-choice-container pixel-options">
+                                    <div class="display-choice" id="optionsDisplay">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer pixel-modal-footer">
+                    <button type="button" class="btn btn-secondary pixel-btn" data-bs-dismiss="modal">CLOSE</button>
+                    <button type="button" class="btn btn-primary pixel-btn" id="saveAvatarBtn">SAVE AVATAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{% static 'crudapp/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'crudapp/js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'crudapp/js/script.js' %}"></script>
+    <script src="{% static 'crudapp/js/html2canvas.min.js' %}"></script>
+
+    <script>
+        window.staticUrl = "{% static '' %}";
+    </script>
+</body>
+</html>
